@@ -1,2 +1,5 @@
 input.txt
+input-*.txt
+*.pdf
+*.zip
 
