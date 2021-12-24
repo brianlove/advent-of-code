@@ -1,5 +1,6 @@
 input.txt
 input-*.txt
+test*
 *.pdf
 *.zip
 
