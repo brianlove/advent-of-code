@@ -1,0 +1,111 @@
+abcd efgh ijkl mn
+
+
+w = a
+x = 0
+x += z
+x %= 26
+# div z 1??
+x += 11
+x = x == w
+x = x == 0
+y = 0
+y += 25
+y *= x
+y += 1
+z *= y
+y = 0
+y += w
+y += 6
+y *= x
+z += y
+
+-------
+
+z = prev_z
+x = (z % 26) + 11
+
+if x == w:
+    x = 0
+else:
+    x = 1
+
+y = 25 * x + 1
+
+z = z * y
+
+y = (w + 6) * x
+
+z = z + y
+
+--------
+
+z = (z * y) + ((w + 6) * x)
+
+----
+
+x = (z % 26) + 11
+z = z // 1
+x = (x == w) ? 0 : 1
+z = (z * (25 * x + 1)) + ((w + 6) * x)
+
+===========================
+
+Digit 2:
+
+x = (z % 26) + 11
+
+
+
+
+x = (z * 26) + AA
+z = z // BB
+x = 0 if x == w else 1
+z = z * (25 * x + 1)
+y = (w + CC) * x
+z = z + y
+
+=============================
+
+x = (z % 26) + AA
+z = math.trunc(z / BB)
+x = 0 if x == w else 1
+z = z * (25 * x + 1)
+y = (w + CC) * x
+z = z + y
+
+
+x = (z % 26) + AA
+z = math.trunc(z / BB)
+x = 0 if x == w else 1
+z = (z * (25*x + 1)) + ((w + CC) * x)
+
+
+x = (z % 26) + AA
+z = math.trunc(z / BB)
+if x == w:
+    # x = 0
+    # z = (z * (0 + 1)) + ((w + CC) * 0)
+    z = z
+else:
+    # x = 1
+    # z = (z * (25 + 1)) + ((w + CC) * 1)
+    z = 26 * z + w + CC
+
+
+*******************************************
+    x = (z % 26) + AA
+    z = math.trunc(z / BB)
+    if x != w:
+        z = 26 * z + w + CC
+*******************************************
+
+
+
+
+
+
+
+
+
+
