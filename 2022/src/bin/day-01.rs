@@ -37,6 +37,8 @@ fn part1(input: &[String]) -> i32 {
             }
         }
     }
+    // Make sure we include the last elf!!
+    totals.push(this_elf_total);
 
     let mut largest_total = 0;
 
@@ -50,10 +52,38 @@ fn part1(input: &[String]) -> i32 {
     return largest_total;
 }
 
+fn part2(input: &[String]) -> i32 {
+    let mut this_elf_total = 0;
+    let mut totals = Vec::new();
+
+    for line in input {
+        if line == "" {
+            totals.push(this_elf_total);
+            this_elf_total = 0;
+        } else {
+            match line.parse::<i32>() {
+                Ok(val) => this_elf_total += val,
+                Err(err) => println!("Invalid line! {}", err),
+            }
+        }
+    }
+    // Make sure we include the last elf!!
+    totals.push(this_elf_total);
+
+    totals.sort_by(|a, b| b.cmp(a));
+    let largest_three = totals[0] + totals[1] + totals[2];
+
+    return largest_three;
+}
+
 fn main() -> Result<()> {
     let input = read_input()?;
+
     let answer1 = part1(&input);//.context("Failed to find answer for part 1");
     println!("part 1: {}", answer1);
+
+    let answer2 = part2(&input);//.context("Failed to find answer for part 1");
+    println!("part 2: {}", answer2);
 
     return Ok(());
 }
