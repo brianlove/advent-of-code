@@ -1,8 +1,7 @@
-// use itertools::Itertools;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-use anyhow::{/*Context,*/ Result};
+use anyhow::{Result};
 
 fn read_input() -> Result<Vec<String>> {
     const FILE_NAME: &str = "input/01-sample.txt";
@@ -14,7 +13,6 @@ fn read_input() -> Result<Vec<String>> {
     return buffered
         .lines()
         .map(|line| Ok(line?))
-        // .map(|line| Ok(line?.parse::<i32>()?))
         .collect()
 }
 
@@ -29,10 +27,10 @@ fn part2(_input: &[String]) -> i32 {
 fn main() -> Result<()> {
     let input = read_input()?;
 
-    let answer1 = part1(&input);//.context("Failed to find answer for part 1");
+    let answer1 = part1(&input);
     println!("part 1: {}\n", answer1);
 
-    let answer2 = part2(&input);//.context("Failed to find answer for part 1");
+    let answer2 = part2(&input);
     println!("part 2: {}\n", answer2);
 
     return Ok(());
