@@ -48,7 +48,51 @@ fn part1(input: &[String]) -> i32 {
     return signal_totals;
 }
 
-fn part2(_input: &[String]) -> i32 {
+fn part2(input: &[String]) -> i32 {
+    let mut x: i32 = 1;
+    let mut current_instruction: usize = 0;
+    let mut cycle: usize = 1;
+
+    let mut image: Vec<Vec<char>> = Vec::new();
+    let mut row: usize = 0;
+    let mut pixel: usize = 0;
+
+    while current_instruction < input.len() {
+        let split = input[current_instruction].split(" ").collect::<Vec<_>>();
+
+        let mut cycles_per_instr = 1;
+        let mut num = 0;
+        if split[0] == "addx" {
+            cycles_per_instr = 2;
+            num = split[1].parse::<i32>().unwrap();
+        }
+
+        for c in cycle..(cycle+cycles_per_instr) {
+            if (c - 1) % 40 == 0 {
+                pixel = 0;
+                row += 1;
+                let new_row: Vec<char> = Vec::with_capacity(40);
+                image.push(new_row);
+            } else {
+                pixel += 1;
+            }
+
+            if (x-1..x+2).contains(&(pixel as i32)) {
+                image[row-1].push('#');
+            } else {
+                image[row-1].push('.');
+            }
+        }
+        cycle += cycles_per_instr;
+        x += num;
+        current_instruction += 1;
+    }
+
+    println!("Image:");
+    for row in image {
+        println!("{}", row.into_iter().collect::<String>());
+    }
+
     return 4;
 }
 
