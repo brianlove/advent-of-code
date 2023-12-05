@@ -5,6 +5,8 @@ input-*.txt
 test*
 *.pdf
 *.zip
+*-input.txt
+
 
 2022/target
 

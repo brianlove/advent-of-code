@@ -17,7 +17,7 @@ def part2(lines):
 
 
 with open(args.infile) as file:
-    lines = file.readlines()
+    lines = [line.rstrip() for line in file.readlines()]
     part1(lines)
 
     # part2(lines)
