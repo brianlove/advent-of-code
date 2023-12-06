@@ -85,13 +85,7 @@ def part1_wrong(lines):
 
 ## ============
 
-
-
-
-
-def part1b(lines):
-    print("\n\n~~ PART 1~~")
-
+def build_mapping(lines) -> dict:
     mapping = {
         "seed": {},
         "soil": {},
@@ -100,10 +94,7 @@ def part1b(lines):
         "light": {},
         "temperature": {},
         "humidity": {},
-        # "location": {},
     }
-
-    seeds = [int(x) for x in lines[0].split(": ")[1].split(" ")]
 
     for line in lines[2:]:
         section_start_match = re.findall(r'(\w+)-to-(\w+) map:', line)
@@ -123,40 +114,36 @@ def part1b(lines):
             "range": range_len,
         }
 
-    # for step in mapping:
-    #     print()
-    #     print(step)
-    #     print(mapping[step])
-    # print()
+    return mapping
 
+
+def seed_to_location(seed: int, mapping: dict) -> int:
+    value = seed
+    for step in mapping:
+        for start in mapping[step]:
+            range_end = start + mapping[step][start]["range"]
+            # print(f"  Checking for '{value}' from {start} to {range_end}")
+            if start <= value < range_end:
+                offset = value - start
+                value = mapping[step][start]["dest_start"] + offset
+                break
+        # print(f"   {STEPS[STEPS.index(step)+1]} {value}")
+
+    # print(f"Seed {seed} --> location {value}")
+    return value
+
+
+
+def part1b(lines):
+    print("\n\n~~ PART 1~~")
+
+    seeds = [int(x) for x in lines[0].split(": ")[1].split(" ")]
+
+    mapping = build_mapping(lines)
     lowest_location_map = {}
 
     for seed in seeds:
-        print()
-        print(f"Checking seed {seed}")
-        value = seed
-
-        for step in mapping:
-            print()
-            print(f"Step: {step}")
-            next_step = STEPS[STEPS.index(step) + 1]
-            # print(mapping[step])
-            for start in mapping[step]:
-                range_end = start + mapping[step][start]["range"]
-                # print(f"  Checking for '{value}' from {start} to {range_end}")
-                if start <= value < range_end:
-                    # print("  ", step, start, mapping[step][start])
-                    offset = value - start
-                    newValue = mapping[step][start]["dest_start"] + offset
-                    # print(f"    offset {offset}")
-                    value = newValue
-                    break
-
-            ## If we get through all mappings for this step and didn't
-            ## find one that matches, we're fine, because the mapping
-            ## at that point is one-to-one
-            print(f"   {next_step} {value}")
-            lowest_location_map[seed] = value
+        lowest_location_map[seed] = seed_to_location(seed, mapping)
 
     lowest_location = min(lowest_location_map.values())
     print()
@@ -167,13 +154,40 @@ def part1b(lines):
 
 
 
-def part2(lines):
+def part2_initial(lines):
     print("\n\n~~ PART 2~~")
+
+    seeds_input = [int(x) for x in lines[0].split(": ")[1].split(" ")]
+    seed_ranges = list(zip(seeds_input[::2], seeds_input[1::2]))
+    print(seed_ranges)
+
+    mapping = build_mapping(lines)
+    lowest_location = 10**12
+
+    for seed_range in seed_ranges:
+        start_seed, range_len = seed_range
+        print("Range:", start_seed, range_len)
+
+        for i in range(range_len):
+            location = seed_to_location(start_seed+i, mapping)
+            if location < lowest_location:
+                lowest_location = location
+
+    print("Lowest location:", lowest_location)
+
+
+
+def part2_new(lines):
+    print("\n\n~~ PART 2~~")
+
+
     pass
+
 
 
 with open(args.infile) as file:
     lines = [line.rstrip() for line in file.readlines()]
-    part1b(lines)
+    # part1b(lines)
 
-    # part2(lines)
+    # part2_initial(lines)
+    part2_new(lines)
