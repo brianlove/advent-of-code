@@ -1,5 +1,7 @@
 .vscode/
 
+*.code-workspace
+
 input.txt
 input-*.txt
 test*
